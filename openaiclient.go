@@ -8,19 +8,7 @@ import (
 	"net/http"
 )
 
-// HTTPClient is an interface that our Client and MockClient should satisfy
-type HTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
-// Client is the OpenAI client.
-type Client struct {
-	apiKey     string
-	httpClient HTTPClient
-}
-
 type (
-
 	// EmbeddingRequest is the request body for the embedding endpoint.
 	EmbbedingRequest struct {
 		Model string `json:"model"`
@@ -78,11 +66,16 @@ type (
 		Content string `json:"content"`
 	}
 
-	// // Client is the OpenAI client.
-	// Client struct {
-	// 	apiKey     string
-	// 	httpClient *http.Client
-	// }
+	// HTTPClient is an interface that our Client and MockClient should satisfy
+	HTTPClient interface {
+		Do(req *http.Request) (*http.Response, error)
+	}
+
+	// Client is the OpenAI client.
+	Client struct {
+		apiKey     string
+		httpClient HTTPClient
+	}
 )
 
 // New creates a new OpenAI client.
